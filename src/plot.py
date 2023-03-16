@@ -38,25 +38,42 @@ def plot_chase_graph(csv_file_name: str) -> None:
     # Plot the fitness values
     generations = range(1, len(predator_average_fitness) + 1)
 
-    plt.plot(generations, prey_average_fitness, label='prey Average fitness')
-    plt.plot(generations, prey_best_fitness, label='Prey Best fitness')
+    # Create a figure and two axes objects
+    fig, ax1 = plt.subplots(figsize=(12, 8))
+    ax2 = ax1.twinx()
 
-    plt.plot(generations, predator_average_fitness, label='Predator Average fitness')
-    plt.plot(generations, predator_best_fitness, label='Predator Best fitness')
+    # Plot the first set of data on the first y-axis
+    ax1.plot(generations, prey_average_fitness, label='prey Average fitness', color='blue')
+    ax1.plot(generations, prey_best_fitness, label='Prey Best fitness', color='red')
 
-    # Add labels and a legend to the plot
-    plt.xlabel('Generation')
-    plt.ylabel('Fitness')
+    ax1.set_xlabel('Generations')
+    ax1.set_ylabel('Prey Fitness')
+    # ax1.tick_params('y', colors='b')
+
+    # Plot the second set of data on the second y-axis
+    ax2.plot(generations, predator_average_fitness, label='Predator Average fitness', color='green')
+    ax2.plot(generations, predator_best_fitness, label='Predator Best fitness', color='purple')
+
+    ax2.set_ylabel('Predator Fitness')
+    # ax2.tick_params('y', colors='r')
+
+    # Add legends for the two plots
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper center', ncol=4, frameon=False)
+
+    
     plt.title('Fitness over generations')
-    plt.legend()
-
 
     file_name = csv_file_name[:-4]
+
     #save graph to directory
     plt.savefig('plots/{}.png'.format(file_name))
 
     # Display the plot
     plt.show()
+
+
 
 
 

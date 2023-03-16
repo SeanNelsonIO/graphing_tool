@@ -24,6 +24,3 @@ if __name__ == "__main__":
 
     csv_file_name = format_data(args.file_path)
     choose_plotting_function(args.plotting_function, csv_file_name)
-    
-
-

@@ -6,8 +6,56 @@ def choose_plotting_function(plotting_function, csv_file_name) -> None:
         plot_mouse_graph(csv_file_name)
     if plotting_function == 'chase':
         plot_chase_graph(csv_file_name)
+    if plotting_function == 'metric':
+        plot_metric(csv_file_name)
     else:
         return None
+
+def plot_metric(csv_file_name: str) -> None:
+    # Initialize lists to store the fitness values
+    number_of_cheeses = []
+        
+    # Open the input file and read the data
+    with open("csv_data/{}".format(csv_file_name), 'r') as input_file:
+        # Process each row in the CSV file
+        csv_reader = csv.reader(input_file)
+        for row in csv_reader:
+            number_of_cheeses.append(float(row[1]))
+
+    # Plot the fitness values
+    generations = range(1, len(number_of_cheeses) + 1)
+
+    # Create a figure and two axes objects
+    fig, ax1 = plt.subplots(figsize=(18, 8))
+
+    # Plot the first set of data on the first y-axis
+    ax1.plot(generations, number_of_cheeses, label='Total Number of Cheeses', color='blue')
+
+    ax1.set_xlabel('Generations')
+    ax1.set_ylabel('Total Number of cheeses')
+
+    ax1.set_ylim([0, 100])
+
+    ax1.tick_params('y', colors='blue')
+
+
+    # Add legends for the two plots
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    ax1.legend(lines1, labels1, loc='upper center', bbox_to_anchor=(0.5, 1.07), ncol=4, frameon=False, prop={'size': 14})
+
+    file_name = csv_file_name[:-4]
+
+    ax1.margins(x=0)
+
+    ax1.title.set_fontsize(18)
+    ax1.xaxis.label.set_fontsize(18)
+    ax1.yaxis.label.set_fontsize(18)
+ 
+    #save graph to directory
+    plt.savefig('plots/{}.png'.format(file_name))
+
+    # Display the plot
+    plt.show()
 
 
 def plot_chase_graph(csv_file_name: str) -> None:
